@@ -103,7 +103,7 @@ $(document).ready(function() {
   });
   
   
-    // Saved data from localStorage is loaded into text areas/text box
+    // Data saved to the local
     function loadScheduleData() {
       $("#07AM").text(localStorage.getItem("07AMtext"));
       $("#08AM").text(localStorage.getItem("08AMtext"));
