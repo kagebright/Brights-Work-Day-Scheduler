@@ -1,48 +1,37 @@
-// Time section variables and stuff
+// Using moment for today's date
 $(document).ready(function() {
-    var currentDate = moment().format("MMMM Do, YYYY");
-    var currentTime = moment().format("hh:mm:ss A");
-    var currentHour;
+
+   let currentDate = moment().format("MMMM Do, YYYY");
+    $("#currentDay").text(todaysDate);
   
+  // Array for the hours between 7am-3pm
+  scheduleArray = [
+    "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM"
+  ];
   
-    function init() {
-      $("#date").text(currentDate);// Current date
-     
-      $("#time").text(currentTime);// Current time
-      
-      timeColor();//setting colors based on the current time
+  //creating the rows in the schedule
+  for(let i=0; i < scheduleArray.length; i++) {
+    //creating the section for the schedule
+    let rowEl = $('<div>').addClass("row time");
     
-      let currentTimer = setInterval(function() {
-        currentDate = moment().format("MMMM Do, YYYY");
-        $("#date").text(currentDate);
-        currentTime = moment().format("hh:mm:ss A");
-        $("#time").text(currentTime);
-        timeColor();
-      }, 1000);
+    let timesArray = scheduleArray[i].split(" ");
+    let hour = timesArray[0];
+    let latestTime = hour;
+  //color coding the rows 
+    if (hour < 6) {
+      latestTime = parseInt(hour) + 12
     }
-  
-  //Change text box/area to a specific color for past, present and future hours
-  function timeColor() {
-    currentHour = moment().format("hhA");
-     
-    if (possibleHours.before.indexOf(currentHour) !==-1){
-       
-  
-    init();
+
+    let columnTime =$('<div>').addClass("col-2 hour time-block ").data("value", latestTime);
+    
+
+
+
+
+
+
+
+
+
+
   });
-  
-    // Data saved to the local
-    function loadScheduleData() {
-      $("#07AM").text(localStorage.getItem("07AMtext"));
-      $("#08AM").text(localStorage.getItem("08AMtext"));
-      $("#09AM").text(localStorage.getItem("09AMtext"));
-      $("#10PM").text(localStorage.getItem("10AMtext"));
-      $("#11AM").text(localStorage.getItem("11AMtext"));
-      $("#12PM").text(localStorage.getItem("12PMtext"));
-      $("#01PM").text(localStorage.getItem("01PMtext"));
-      $("#02PM").text(localStorage.getItem("02PMtext"));
-      $("#03PM").text(localStorage.getItem("03PMtext"));
-    }
-  
-    loadScheduleData();
-  
