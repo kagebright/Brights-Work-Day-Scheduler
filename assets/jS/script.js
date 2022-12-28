@@ -1,37 +1,63 @@
 // Using moment for today's date
 $(document).ready(function() {
 
-   let currentDate = moment().format("MMMM Do, YYYY");
+   let todaysDate = moment().format("MMMM Do, YYYY");
     $("#currentDay").text(todaysDate);
   
-  // Array for the hours between 7am-3pm
-  scheduleArray = [
-    "7 AM", "8 AM", "9 AM", "10 AM", "11 AM", "12 PM", "1 PM", "2 PM", "3 PM"
-  ];
-  
-  //creating the rows in the schedule
-  for(let i=0; i < scheduleArray.length; i++) {
-    //creating the section for the schedule
-    let rowEl = $('<div>').addClass("row time");
-    
-    let timesArray = scheduleArray[i].split(" ");
-    let hour = timesArray[0];
-    let latestTime = hour;
-  //color coding the rows 
-    if (hour < 6) {
-      latestTime = parseInt(hour) + 12
-    }
+    // applying right class for colors based on past, current, and future times
+    function fctClass() {
+      // console.log(moment().hour());
+      $(".time-block").each(function () {
 
-    let columnTime =$('<div>').addClass("col-2 hour time-block ").data("value", latestTime);
-    
-
-
+          let textArea = $(this).siblings(".columnInput");
+          let textAreaHour = $(this).data("value");
+          if (textAreaHour < moment().hour()) {
+              textArea.addClass("past");
+          }
+          if (textAreaHour == moment().hour()) {
+              textArea.addClass("present");
+          }
+          if (textAreaHour > moment().hour()) {
+              textArea.addClass("future");
+          }
+      });
+  }
+  // calling my function to create correct colors in text area
+  fctClass();
 
 
 
+  // event listener on save button
+  $(".saveBtn").on("click", function (event) {
+      event.preventDefault();
+      let taskObj = [];
+
+      $(".columnInput").each(function (currentIndex, currentEl) {
+          taskObj[currentIndex] = $(currentEl).val().trim(); // adds key value pairs to object
+      });
 
 
-
+      localStorage.setItem("dailyPlan", JSON.stringify(taskObj));
 
 
   });
+
+
+  // loads dailyPlan from local storage and displays on screen
+  function loadLs() {
+      let storedPlan = JSON.parse(localStorage.getItem("dailyPlan"));
+      if (storedPlan !== null) {
+
+          for (let i = 0; i < 10; i++) {
+
+              $(".columnInput" + (i + 9)).text(storedPlan[i]);
+
+          }
+      }
+  }
+  // calls function to load local storage and displays on the screen
+  loadLs();
+
+
+
+});

@@ -7,7 +7,7 @@
   by jQuery.
 
   Technologies used: HTML, CSS, CSS Framework: Bootstrap, JavaScript, and jQuery.
-
+  
 ## Links
 ### Website: https://kagebright.github.io/brightweeklyscheduler/
 ### GitHub: https://github.com/kagebright/brightweeklyscheduler
