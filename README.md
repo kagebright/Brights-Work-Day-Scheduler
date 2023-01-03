@@ -13,3 +13,4 @@
 ### GitHub: https://github.com/kagebright/brightweeklyscheduler
 
 ## Screenshots of Website: 
+![Screen Shot 2023-01-02 at 11 50 44 PM](https://user-images.githubusercontent.com/113262558/210301768-de1ebe97-dfc2-412b-881d-fb743f9aeb4e.png)
