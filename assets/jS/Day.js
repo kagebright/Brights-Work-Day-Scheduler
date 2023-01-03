@@ -1,49 +1,36 @@
-// Using moment for today's date
-$(document).ready(function() {
-    const currentDate = moment().format("MMMM Do, YYYY");
-    const currentTime = momemt().format("hh:mm:ss A");
+window.onload = function() {
+  const currentDayEl = document.getElementById("currentDay");
+  const timeBlocks = document.querySelectorAll(".time-block");
+  const saveButtons = document.querySelectorAll(".saveBtn");
 
-    function init() {
-        //displaying the current date
-        $("date").text(currentDate);
-    };
+  // Display current day and time
+  const currentTime = moment();
+  currentDayEl.textContent = currentTime.format("dddd, MMMM Do YYYY, h:mm:ss a");
 
-    //Changing the colors according to the past, present, or future times
-    function hourColor () {
-        currentHour = moment.format("hhA")
+  // Set past, present, and future classes for time blocks
+  timeBlocks.forEach(timeBlock => {
+    const timeBlockHour = parseInt(timeBlock.id.split("-")[1]);
+    if (timeBlockHour < currentTime.hour()) {
+      timeBlock.classList.add("past");
+    } else if (timeBlockHour === currentTime.hour()) {
+      timeBlock.classList.add("present");
+    } else {
+      timeBlock.classList.add("future");
     }
-
-  // adding event listener on the save button
-    $(".saveBtn").on("click", function (event) {
-      event.preventDefault();
-      let taskObj = [];
-
-      $(".columnInput").each(function (currentIndex, currentEl) {
-          taskObj[currentIndex] = $(currentEl).val().trim(); // adds key value pairs to object
-      });
-
-
-      localStorage.setItem("dailyPlan", JSON.stringify(taskObj));
-
-
   });
 
+  // Save textarea content to local storage when save button is clicked
+  saveButtons.forEach(button => {
+    button.addEventListener("click", event => {
+      const timeBlockId = event.target.parentElement.id;
+      const timeBlockTextarea = event.target.parentElement.querySelector("textarea");
+      localStorage.setItem(timeBlockId, timeBlockTextarea.value);
+    });
+  });
 
-  // loads dailyPlan from local storage and displays on screen
-  function loadLs() {
-      let storedPlan = JSON.parse(localStorage.getItem("dailyPlan"));
-      if (storedPlan !== null) {
-
-          for (let i = 0; i < 10; i++) {
-
-              $(".columnInput" + (i + 9)).text(storedPlan[i]);
-
-          }
-      }
-  }
-  // calls function to load local storage and displays on the screen
-  function loadScheduleData();
-
-
-
-});
+  // Load textarea content from local storage
+  timeBlocks.forEach(timeBlock => {
+    const timeBlockTextarea = timeBlock.querySelector("textarea");
+    timeBlockTextarea.value = localStorage.getItem(timeBlock.id);
+  });
+};
